@@ -8,6 +8,7 @@ import re
 class Terminal:
     
     terminal_history = []
+
     history_level = 0
     
     def __init__(self, root):
@@ -42,7 +43,7 @@ class Terminal:
         if i > 0:
             self.history_level+=1
 
-        print self.terminal_history[i]
+        self.process_input( self.terminal_history[i])
         return "break"
 
     def down_bind(self,event):
@@ -54,7 +55,7 @@ class Terminal:
         if i < len(self.terminal_history)-1:
             self.history_level-=1
 
-        print self.terminal_history[i]
+        self.process_input( self.terminal_history[i])
 
         return "break"
 
@@ -77,4 +78,5 @@ class Terminal:
         return "break"
 
     def process_input(self,input_str):
-        print input_str
+        self.term.delete('input_start+1l','end-1c')
+        self.term.insert('input_start+1l',input_str)
