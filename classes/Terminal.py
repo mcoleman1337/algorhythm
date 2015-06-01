@@ -8,7 +8,8 @@ import re
 class Terminal:
     
     terminal_history = []
-
+    history_level = 0
+    
     def __init__(self, root):
         
         self.term = Text(root, width = 150, height = 10, foreground = "#FFFFFF", background = "#000000", insertbackground = "#FFFFFF")
@@ -27,14 +28,34 @@ class Terminal:
 
         self.term.insert(END,"> ","prompt")
 
+        self.term.mark_set("input_start","end-1c")
+
         self.term.tag_config("prompt", foreground = "#00FF00")
 
         
     
     def up_bind(self,event):
+#        print self.terminal_history[len(self.terminal_history)-self.history_level]
+        a, b = self.history_level , len(self.terminal_history)
+        i = b - a - 1
+
+        if i > 0:
+            self.history_level+=1
+
+        print self.terminal_history[i]
         return "break"
 
     def down_bind(self,event):
+
+
+
+        a, b = self.history_level , len(self.terminal_history)
+        i = b - a - 1
+        if i < len(self.terminal_history)-1:
+            self.history_level-=1
+
+        print self.terminal_history[i]
+
         return "break"
 
     def protect_prompt_bind(self,event):
@@ -43,12 +64,15 @@ class Terminal:
             return "break"
         
     
-    def return_bind(self,event):
 
-        self.term.tag_remove('prompt', '{0}.{1}'.format(len(self.terminal_history)+1,0), '{0}.{1}'.format(len(self.terminal_history)+1,2))
-        self.process_input(re.sub("^> ","",self.term.get(str(len(self.terminal_history))+".2","end").strip()))
+    def return_bind(self,event):
+        self.history_level = 0
+        self.term.tag_remove('prompt', "1.0", "end")
+        temp_index = self.term.index("end-1l")[:2]+"2"
+        self.term.mark_set("input_start",temp_index)
+        term_input = self.term.get('input_start','end').rstrip()
         self.term.insert("end","\n> ",'prompt')
-        self.terminal_history.append(self.term.get(str(len(self.terminal_history))+".2","end"))
+        self.terminal_history.append(term_input)
 
         return "break"
 
