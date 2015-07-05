@@ -7,8 +7,12 @@ class Algorhythm:
     root = Tk()
 
     def __init__(self):
-        aoeu = Terminal(self.root)
-        aoeu.term.pack(side = "bottom", fill = "both")
+        yscrollbar = Scrollbar(self.root)
+        terminal = Terminal(self.root)
+        terminal.term.configure(yscrollcommand = yscrollbar.set)
+        yscrollbar.configure(command = terminal.term.yview)
+        yscrollbar.pack(side = RIGHT, fill = Y)
+        terminal.term.pack(side = "bottom", fill = "both")
         self.root.mainloop()
 
 
