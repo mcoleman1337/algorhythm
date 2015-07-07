@@ -3,6 +3,9 @@ from decimal import *
 
 class Note:
     
+    #note has three parameters:
+    #pitch: base frequency in HZ
+    #duration: length of time either relative to the tempo (such as quarter note, half, etc or absolute (in ms)
     general_pitch_regex = re.compile(r"!([A-Za-z0-9\-+#]*)")
 
     valid_non_numeric_pitch_input_regex = re.compile(r"^([A-Ga-g][b#]?\d([+-]\d+[ch])?)$")
@@ -16,7 +19,7 @@ class Note:
                      ("Gb",9),("G",10),("G#",11)])
                      
 
-    def __init__(self,pitch,duration,absoluteduration=True):
+    def __init__(self,pitch,duration):
         
         try:
             self.pitch = Decimal(pitch)
@@ -39,7 +42,9 @@ class Note:
             else:                    
                 raise InvalidPitchException(pitch)
 
-            print self.pitch
+        self.duration = duration #need to specify syntax for declaring note duration
+        #thinking about letter suffixes: ms for milliseconds, q for quarter note, s for sixteenth, e for eighth, etc.
+        print self.pitch+" "+self.duration
 
     def freq_from_note_and_modifier(self,note,sign,modval,modtype):
         if (modtype == 'c'):
