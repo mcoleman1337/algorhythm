@@ -44,7 +44,7 @@ class Note:
 
         self.duration = duration #need to specify syntax for declaring note duration
         #thinking about letter suffixes: ms for milliseconds, q for quarter note, s for sixteenth, e for eighth, etc.
-        print self.pitch+" "+self.duration
+        print repr(self.pitch)+" "+self.duration
 
     def freq_from_note_and_modifier(self,note,sign,modval,modtype):
         if (modtype == 'c'):
