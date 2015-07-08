@@ -46,7 +46,9 @@ class Note:
 
 
         try:
-            float(tempo)
+            tempo_ = float(tempo)
+            if (tempo_ <= 0):
+                raise InvalidTempoException(tempo)
         except ValueError:
             raise InvalidTempoException(tempo)
 
