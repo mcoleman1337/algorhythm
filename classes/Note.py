@@ -1,5 +1,6 @@
 import re, math
 from decimal import *
+from Defaults import Defaults
 
 class Note:
     
@@ -21,10 +22,10 @@ class Note:
                      ("Gb",9),("G",10),("G#",11)])
                      
 
-    def __init__(self,pitch,duration,tempo):
+    def __init__(self,pitch,duration=Defaults.duration,tempo=Defaults.tempo):
         
         try:
-            self.pitch = Decimal(pitch)
+            self.pitch = float(pitch)
 
 
         except InvalidOperation as e:

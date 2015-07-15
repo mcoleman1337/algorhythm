@@ -71,20 +71,6 @@ class Note:
                     raise InvalidDamnPitchException("Error: Invalid pitch string in note group \""+input_text+"\"")
         print self.pitch
 
-    def freq_from_note_and_modifier(self,note,mod):
-        return self.freq_from_note(note)
-
-    def freq_from_note(self,note):
-        basenote = self.note_map[note[:-1]]
-        
-        octave = int(note[-1:])
-
-        octave_diff = octave-4
-
-
-        half_step_shift = Decimal(octave_diff*12 + basenote)
-        return float(440)*math.pow(math.pow(2,0.083333333333333),half_step_shift)
-
 
         
 class NoDamnPitchException(Exception):
@@ -102,13 +88,6 @@ class TooDamnManyPitchesException(Exception):
     def __str__(self):
         return repr(self.value)
 
-class InvalidDamnPitchException(Exception):
-
-    def __init__(self,value):
-        self.value = value
-
-    def __str__(self):
-        return repr(self.value)
 
 class MismatchedDamnBracketsException(Exception):
 
